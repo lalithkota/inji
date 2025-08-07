@@ -756,7 +756,9 @@ export const requestMachine =
 
         advertiseDevice: () => callback => {
           const openId4VpUri = verifier.startAdvertisement('OVPMOSIP');
-          callback({type: 'ADV_STARTED', openId4VpUri});
+          const uriModified = openId4VpUri.split("?");
+          uriModified[0] = "OPENID4VP://connect";
+          callback({type: 'ADV_STARTED', openId4VpUri: uriModified.join("?")});
 
           const statusCallback = (event: VerifierDataEvent) => {
             if (event.type === EventTypes.onSecureChannelEstablished) {
